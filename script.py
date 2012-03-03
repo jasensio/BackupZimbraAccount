@@ -2,7 +2,7 @@
 #-*- coding: UTF-8 -*-
 import sys
 import os.path
-import subprocess.Popen
+import subprocess
 
 def intro():
     print"""
@@ -52,10 +52,57 @@ def user_import(mailbox):
     sys.exit()
 
 def user_export(mailbox):
-    print "Iniciando el proceso de importación de la cuenta "+mailbox+"..."
+    print "Iniciando el proceso de exportación de la cuenta "+mailbox+"..."
+    question = raw_input("CONTINUAR??  (SI) ")
+    if question != "SI":
+        print "Cancelado"
+        sys.exit()
+    cmd = 'zmaccts | grep ' + mailbox + ' | cut -d " " -f1'
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    out = p.communicate()
+    print "OUT: " + out
+    if out != mailbox:
+        print "No existe el buzón, saliendo..."
+        sys.exit()
+    else:
+         cmd = 'zmmailbox -z -m ' + mailbox + ' gms'
+         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+         out = p.communicate()
+         print "Exportando el buzón " + mailbox + " con un tamaño de " + out + " MB"
+         cmd = 'zmmailbox -z -m ' + mailbox + ' getRestURL "//?fmt=tgz" > backup_' + mailbox + '_.tgz'
+         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+         print "Cuenta exportada con éito"
+         sys.exit()
 
-
+def read_mailbox():
+    mailbox = raw_input("Introduce el nombre de la cuenta: ")
+    if mailbox.find("@") == -1:
+        print "Nombre de cuenta nó válido. Cancelado"
+        sys.exit()
+    return mailbox
 
 print "Iniciando...."
 option=intro()
+if option == 1:
+    print " Se va a proceder a la EXPORTACIÓN. "
+    mailbox = read_mailbox()
+    user_export(mailbox)
+elif option == 2:
+    print " Se va a proceder a una IMPORTACIÓN masiva de cuentas. "
+elif option == 3:
+    print " Se va a proceder a la IMPORTACIÓN. "
+    mailbox = read_mailbox()
+    user_import(mailbox)
+elif option == 4:
+    print " Se va a proceder a la EXPORTACIÓN masiva de cuentas. "
+
+elif option == 5:
+    print " Cancelado a petición del usuario."
+    sys.exit()
+else:
+    print "Opción incorrecta...Cancelado"
+    sys.exit()
+
+
+
 print "La opción elegida es: " + str(option)
