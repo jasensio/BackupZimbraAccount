@@ -82,10 +82,10 @@ def user_export_massive():
     for line in p.stdout.readlines():
         if line == "\n": break
         tmp = line.split()
-        mail = tmp[0][0]
-        active = tmp[0][1]
-        creation_date = tmp[0][2]
-        last_activity_date = tmp[0][3]
+        mail = tmp[0]
+        active = tmp[1]
+        creation_date = tmp[2]
+        last_activity_date = tmp[3]
         print mail +":"+ active +":"+ creation_date +":"+ last_activity_date
         if mail.find("wiki")  or mail.find("galsync") or mail.find("ham") or mail.find("spam")  or mail.find("virus"):
             break
