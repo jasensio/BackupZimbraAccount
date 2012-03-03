@@ -53,7 +53,6 @@ def user_import(mailbox):
 
 
 def user_export(mailbox):
-<<<<<<< HEAD
     print "Iniciando el proceso de exportación de la cuenta "+mailbox+"..."
     question = raw_input("CONTINUAR??  (SI) ")
     if question != "SI":
@@ -63,16 +62,6 @@ def user_export(mailbox):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     out = p.communicate()
     print "OUT: " + out
-=======
-    print "Iniciando el proceso de importación de la cuenta "+mailbox+"..."
-    question = raw_input("CONTINUAR??  (SI)")
-    if question != "SI":
-        print "Cancelado"
-        sys.exit()
-    cmd = 'zmaccts | grep ' + mailbox + ' | cut -d " " -f1'
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-    out = p.communicate()
->>>>>>> refs/remotes/origin/master
     if out != mailbox:
         print "No existe el buzón, saliendo..."
         sys.exit()
@@ -87,11 +76,7 @@ def user_export(mailbox):
          sys.exit()
 
 def read_mailbox():
-<<<<<<< HEAD
     mailbox = raw_input("Introduce el nombre de la cuenta: ")
-=======
-    mailbox = raw_input("Introduce el nombre de la cuenta")
->>>>>>> refs/remotes/origin/master
     if mailbox.find("@") == -1:
         print "Nombre de cuenta nó válido. Cancelado"
         sys.exit()
