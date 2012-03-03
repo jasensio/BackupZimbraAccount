@@ -18,7 +18,7 @@ def intro():
     try:
         option = int(option)
     except ValueError:
-        print "No has introducido una opcón válida"
+        print "No has introducido una opción válida"
         sys.exit()
     if option < 1 or option > 5:
         print "Opción no válida"
@@ -32,7 +32,7 @@ def user_import(mailbox):
     cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
-    out = p.communicate()[0]
+    out, error = p.communicate()[0]
     out = out[:-1]
     if out != mailbox:
         print "No existe el buzón, creándolo..."
@@ -48,7 +48,7 @@ def user_import(mailbox):
     cmd = 'ls -lh backup_'+mailbox+'_.tgz | cut -d " " -f 5'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
-    out = p.communicate()[0]
+    out, error = p.communicate()[0]
     out = out[:-1]
     print "Importando la cuenta "+mailbox+" con un tamaño de: "+out
     cmd = 'zmmailbox -z -m '+mailbox+' postRestURL "//?fmt=tgz&resolve=reset"  backup_'+mailbox+'_.tgz'
@@ -58,6 +58,72 @@ def user_import(mailbox):
     sys.exit()
     print "NNONONO"
 
+def user_export_massive():
+    inactivity_days = raw_input("Introduce días de inactividad: ")
+    try:
+        inactivity_days = int(inactivity_days)
+    except ValueError:
+        print "No has introducido una número de días válida"
+        sys.exit()
+    print "Si continuas se procederá a la importación de cuentas inactivas de más de " + str(inactivity_days) + " días"
+    question = raw_input("PROCEDEMOS??  (SI) ")
+    if question != "SI":
+        print "Cancelado"
+        sys.exit()
+    inactivity_seconds = inactivity_days * 86400
+    cmd = 'date "+%s"'
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    actual_date = p.communicate()[0]
+    reference_date = actual_date - inactivity_seconds
+    cmd = 'zmaccts | grep /'
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    for line in p.stdout.readlines():
+        if line == "\n": break
+        tmp = line.split()
+        mail = tmp[0][0]
+        active = tmp[0][1]
+        creation_date = tmp[0][2]
+        last_activity_date = tmp[0][3]
+        if mail.find(wiki)  or mail.find(galsync) or mail.find(ham) or mail.find(spam)  or mail.find(virus):
+            break
+        if last_activity_date == "never":
+            cmd = 'date -d ' + creation_date + ' "+%s"'
+            p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+            p.wait()
+            creation_date_seconds = p.communicate()[0]
+            if reference_date > creation_date_seconds:
+                cmd = 'zmmailbox -z -m ' + mail + ' gms'
+                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                p.wait()
+                out, error = p.communicate()[0]
+                out = out[:-1]
+                print "Exportando la cuenta: " + mail + "de tamaño: " + out
+                cmd = 'zmmailbox -z -m ' + mail + ' getRestURL "//?fmt=tgz" > backup_' + mail + '_.tgz'
+                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                p.wait()
+                print "Cuenta exportada con éxito"
+            else:
+                print "No exportamos la cuenta: " + mail
+        else:
+            cmd = 'date -d ' + last_activity + ' "+%s"'
+            p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+            p.wait()
+            last_activity_seconds = p.communicate()[0]
+            if reference_date > last_activity_seconds:
+                cmd = 'zmmailbox -z -m ' + mail + ' gms'
+                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                p.wait()
+                out, error = p.communicate()[0]
+                out = out[:-1]
+                print "Exportando la cuenta: " + mail + "de tamaño: " + out
+                cmd = 'zmmailbox -z -m ' + mail + ' getRestURL "//?fmt=tgz" > backup_' + mail + '_.tgz'
+                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                p.wait()
+                print "Cuenta exportada con éxito"
+            else:
+                print "No exportamos la cuenta: " + mail
 
 def user_export(mailbox):
     print "Iniciando el proceso de exportación de la cuenta "+mailbox+"..."
@@ -77,13 +143,13 @@ def user_export(mailbox):
          cmd = 'zmmailbox -z -m ' + mailbox + ' gms'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
-         out = p.communicate()[0]
+         out, error = p.communicate()[0]
          out = out[:-1]
          print "Exportando el buzón " + mailbox + " con un tamaño de " + out
          cmd = 'zmmailbox -z -m ' + mailbox + ' getRestURL "//?fmt=tgz" > backup_' + mailbox + '_.tgz'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
-         print "Cuenta exportada con éito"
+         print "Cuenta exportada con éxito"
          sys.exit()
 
 def read_mailbox():
@@ -100,14 +166,14 @@ if option == 1:
     mailbox = read_mailbox()
     user_export(mailbox)
 elif option == 2:
-    print " Se va a proceder a una IMPORTACIÓN masiva de cuentas. "
+    print " Se va a proceder a una EXPORTACIÓN masiva de cuentas. "
+    user_export_massive()
 elif option == 3:
     print " Se va a proceder a la IMPORTACIÓN. "
     mailbox = read_mailbox()
     user_import(mailbox)
 elif option == 4:
-    print " Se va a proceder a la EXPORTACIÓN masiva de cuentas. "
-
+    print " Se va a proceder a la IMPORTACIÓN masiva de cuentas. "
 elif option == 5:
     print " Cancelado a petición del usuario."
     sys.exit()
