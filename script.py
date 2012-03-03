@@ -4,7 +4,6 @@ import sys
 import os.path
 import subprocess
 
-
 def intro():
     print"""
     Utilidad de Importación/Exportación de cuentas en Zimbra.
@@ -39,21 +38,19 @@ def user_import(mailbox):
         cmd = 'zmprov ca ' + mailbox + ' 1qasw2'
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     else:
-        print "El buzón a importar existe, se sobreescribirán los datos..."
-        question = raw_input("CONTINUAR??  (SI)")
-        if question != "SI":
-            print "Cancelado"
-            sys.exit()
+        print "El buzón a importar existe!! Cancelado..."
+        sys.exit()
     cmd = 'ls -lh backup_'+mailbox+'_.tgz | cut -d " " -f 5'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     out = p.communicate()[0]
     out = out[:-1]
     print "Importando la cuenta "+mailbox+" con un tamaño de: "+out
-    print "Importando la cuenta "+mailbox+" con un tamaño de: "+out+" MB"
-    cmd = 'zmmailbox -z -m '+mailbox+' postRestURL "//?fmt=tgz&resolve=reset"  backup'+mailbox+'_.tgz'
+    cmd = 'zmmailbox -z -m '+mailbox+' postRestURL "//?fmt=tgz&resolve=reset"  backup_'+mailbox+'_.tgz'
+    print cmd
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     print "Cuenta Importada con éxito"
     sys.exit()
+    print "NNONONO"
 
 
 def user_export(mailbox):
@@ -66,7 +63,6 @@ def user_export(mailbox):
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     out = p.communicate()[0]
     out = out[:-1]
-    print "OUT: " + out
     if out != mailbox:
         print "No existe el buzón, saliendo..."
         sys.exit()
@@ -76,7 +72,6 @@ def user_export(mailbox):
          out = p.communicate()[0]
          out = out[:-1]
          print "Exportando el buzón " + mailbox + " con un tamaño de " + out
-         print "Exportando el buzón " + mailbox + " con un tamaño de " + out + " MB"
          cmd = 'zmmailbox -z -m ' + mailbox + ' getRestURL "//?fmt=tgz" > backup_' + mailbox + '_.tgz'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          print "Cuenta exportada con éito"
