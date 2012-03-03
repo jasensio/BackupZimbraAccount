@@ -4,7 +4,6 @@ import sys
 import os.path
 import subprocess
 
-
 def intro():
     print"""
     Utilidad de Importación/Exportación de cuentas en Zimbra.
