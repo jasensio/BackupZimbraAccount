@@ -81,7 +81,7 @@ def user_export_massive():
     p.wait()
     for line in p.stdout.readlines():
         if line == "\n": break
-        tmp = line.split()
+        tmp = line.split('\n')
         mail = tmp[0]
         active = tmp[1]
         creation_date = tmp[2]
