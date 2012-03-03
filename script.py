@@ -87,7 +87,7 @@ def user_export_massive():
         creation_date = tmp[2]
         last_activity_date = tmp[4]
         print mail +":"+ active +":"+ creation_date +":"+ last_activity_date
-        if mail.find("wiki")  or mail.find("galsync") or mail.find("ham") or mail.find("spam")  or mail.find("virus"):
+        if "wiki" in mail  or "galsync" in mail  or "ham" in mail or "spam" in mail  or "virus" in mail:
             break
         if last_activity_date == "never":
             cmd = 'date -d ' + creation_date + ' "+%s"'
