@@ -33,6 +33,7 @@ def user_import(mailbox):
     cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     out = p.communicate()[0]
+    out = out[:-1]
     if out != mailbox:
         print "No existe el buzón, creándolo..."
         cmd = 'zmprov ca ' + mailbox + ' 1qasw2'
@@ -46,6 +47,8 @@ def user_import(mailbox):
     cmd = 'ls -lh backup_'+mailbox+'_.tgz | cut -d " " -f 5'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     out = p.communicate()[0]
+    out = out[:-1]
+    print "Importando la cuenta "+mailbox+" con un tamaño de: "+out
     print "Importando la cuenta "+mailbox+" con un tamaño de: "+out+" MB"
     cmd = 'zmmailbox -z -m '+mailbox+' postRestURL "//?fmt=tgz&resolve=reset"  backup'+mailbox+'_.tgz'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
@@ -62,6 +65,7 @@ def user_export(mailbox):
     cmd = 'zmaccts | grep ' + mailbox + ' | cut -d " " -f1'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     out = p.communicate()[0]
+    out = out[:-1]
     print "OUT: " + out
     if out != mailbox:
         print "No existe el buzón, saliendo..."
@@ -70,6 +74,8 @@ def user_export(mailbox):
          cmd = 'zmmailbox -z -m ' + mailbox + ' gms'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          out = p.communicate()[0]
+         out = out[:-1]
+         print "Exportando el buzón " + mailbox + " con un tamaño de " + out
          print "Exportando el buzón " + mailbox + " con un tamaño de " + out + " MB"
          cmd = 'zmmailbox -z -m ' + mailbox + ' getRestURL "//?fmt=tgz" > backup_' + mailbox + '_.tgz'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
