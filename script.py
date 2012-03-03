@@ -75,7 +75,7 @@ def user_export_massive():
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
     actual_date = p.communicate()[0]
-    reference_date = actual_date - inactivity_seconds
+    reference_date = int(actual_date) - inactivity_seconds
     cmd = 'zmaccts | grep /'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
@@ -93,7 +93,7 @@ def user_export_massive():
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
             creation_date_seconds = p.communicate()[0]
-            if reference_date > creation_date_seconds:
+            if reference_date > int(creation_date_seconds):
                 cmd = 'zmmailbox -z -m ' + mail + ' gms'
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
                 p.wait()
@@ -111,7 +111,7 @@ def user_export_massive():
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
             last_activity_seconds = p.communicate()[0]
-            if reference_date > last_activity_seconds:
+            if reference_date > int(last_activity_seconds):
                 cmd = 'zmmailbox -z -m ' + mail + ' gms'
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
                 p.wait()
