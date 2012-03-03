@@ -108,7 +108,7 @@ def user_export_massive():
             else:
                 print "No exportamos la cuenta: " + mail
         else:
-            cmd = 'date -d ' + last_activity + ' "+%s"'
+            cmd = 'date -d ' + last_activity_date + ' "+%s"'
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
             last_activity_seconds = p.communicate()[0]
