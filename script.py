@@ -41,7 +41,7 @@ def user_import(mailbox):
         p.wait()
     else:
         print "El buzón a importar existe, se sobreescribirán los datos..."
-        question = raw_input("CONTINUAR??  (SI)")
+        question = raw_input("CONTINUAR??  (SI) ")
         if question != "SI":
             print "Cancelado"
             sys.exit()
@@ -52,7 +52,6 @@ def user_import(mailbox):
     out = out[:-1]
     print "Importando la cuenta "+mailbox+" con un tamaño de: "+out
     cmd = 'zmmailbox -z -m '+mailbox+' postRestURL "//?fmt=tgz&resolve=reset"  backup_'+mailbox+'_.tgz'
-    print cmd
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
     print "Cuenta Importada con éxito"
