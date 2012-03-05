@@ -11,7 +11,7 @@ def intro():
     1.- Exportar una cuenta.
     2.- Exportación masiva en función de tiempo de inactividad.
     3.- Importación de una cuenta.
-    4.- Importaación masiva.
+    4.- Importación masiva.
     5.- Salir
     """
     option = raw_input("Introduce Opción: ")
@@ -217,6 +217,3 @@ else:
     print "Opción incorrecta...Cancelado"
     sys.exit()
 
-
-
-print "La opción elegida es: " + str(option)
