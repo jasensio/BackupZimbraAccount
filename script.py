@@ -27,7 +27,7 @@ def intro():
 
 def user_import(mailbox):
     if ( os.path.exists('backup_'+mailbox+'_.tgz') == "False" ):
-        print "No se encuentra el backup de "+mailbox+" para su importación"
+        print "No se encuentra el backup de " + mailbox + " para su importación"
         sys.exit()
     cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
@@ -45,7 +45,7 @@ def user_import(mailbox):
         if question != "SI":
             print "Cancelado"
             sys.exit()
-    cmd = 'ls -lh backup_'+mailbox+'_.tgz | cut -d " " -f 5'
+    cmd = 'ls -lh backup_' + mailbox + '_.tgz | cut -d " " -f 5'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
     out = p.communicate()[0]
@@ -68,6 +68,8 @@ def user_import_massive():
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
     for mailbox in p.stdout.readlines():
+        mailbox = mailbox[:-1]
+        print "MAILBOX: " + mailbox
         cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
