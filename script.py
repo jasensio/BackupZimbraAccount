@@ -50,14 +50,46 @@ def user_import(mailbox):
     p.wait()
     out = p.communicate()[0]
     out = out[:-1]
-    print "Importando la cuenta "+mailbox+" con un tamaño de: "+out
-    cmd = 'zmmailbox -z -m '+mailbox+' postRestURL "//?fmt=tgz&resolve=reset"  backup_'+mailbox+'_.tgz'
+    print "Importando la cuenta " + mailbox + " con un tamaño de: "+ ut
+    cmd = 'zmmailbox -z -m ' + mailbox + ' postRestURL "//?fmt=tgz&resolve=reset"  backup_' + mailbox + '_.tgz'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
     print "Cuenta Importada con éxito"
     sys.exit()
-    print "NNONONO"
 
+def user_import_massive():
+    print "Buscando cuentas para importar en el directorio actual..."
+    print "Si continuas se crearán las cuentas que no existan y sobreecribiran las que existan!!"
+    question = raw_input("PROCEDEMOS??  (SI) ")
+    if question != "SI":
+        print "Cancelado"
+        sys.exit()
+    cmd = 'ls -1 backup*.tgz'
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    for mailbox in p.stdout.readlines():
+        cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        p.wait()
+        out = p.communicate()[0]
+        out = out[:-1]
+        if out != mailbox:
+            print "No existe el buzón, creándolo..."
+            cmd = 'zmprov ca ' + mailbox + ' 1qasw2'
+            p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+            p.wait()
+        cmd = 'ls -lh backup_'+ mailbox +'_.tgz | cut -d " " -f 5'
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        p.wait()
+        out = p.communicate()[0]
+        out = out[:-1]
+        print "Importando la cuenta " + mailbox + " con un tamaño de: " + out
+        cmd = 'zmmailbox -z -m ' + mailbox + ' postRestURL "//?fmt=tgz&resolve=reset"  backup_' + mailbox + '_.tgz'
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        p.wait()
+        print "Cuenta Importada con éxito"
+        
+    
 def user_export_massive():
     inactivity_days = raw_input("Introduce días de inactividad: ")
     try:
@@ -174,6 +206,7 @@ elif option == 3:
     user_import(mailbox)
 elif option == 4:
     print " Se va a proceder a la IMPORTACIÓN masiva de cuentas. "
+    user_import_massive()
 elif option == 5:
     print " Cancelado a petición del usuario."
     sys.exit()
