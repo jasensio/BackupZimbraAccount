@@ -69,7 +69,7 @@ def user_import_massive():
     p.wait()
     for mailbox in p.stdout.readlines():
         mailbox = mailbox[:-1]
-        mailbox = mailbos.split("_")[1]
+        mailbox = mailbox.split("_")[1]
         print "MAILBOX: " + mailbox
         cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
