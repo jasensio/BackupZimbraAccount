@@ -190,21 +190,40 @@ def user_export(mailbox):
          p.wait()
          out = p.communicate()[0]
          zimbraLdapPassword = out[:-1]
-         print "Password: " + zimbraLdapPassword
          
          cmd = 'zmlocalconfig -s ldap_master_url | cut -d " " -f3'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         ldapMasterUrl = out[:-1]  
-         print "Password: " + ldapMasterUrl  
+         ldapMasterUrl = out[:-1]   
         
          cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep displayName: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
+         displayName = out[:-1]
+         print "Atributo displayName: " + displayName
+         
+         cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" |  grep givenName: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
+         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+         p.wait()
+         out = p.communicate()[0]
          givenName = out[:-1]
          print "Atributo GivenName: " + givenName
+         
+         cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep cn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
+         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+         p.wait()
+         out = p.communicate()[0]
+         cnName = out[:-1]
+         print "Atributo cnName: " + givenName
+         
+         cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep sn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
+         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+         p.wait()
+         out = p.communicate()[0]
+         snName = out[:-1]
+         print "Atributo snName: " + givenName
            
          print "Cuenta exportada con éxito"
          sys.exit()
