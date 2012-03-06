@@ -185,7 +185,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          # Exportación de los datos del LDAP de la cuenta.
-         file = open (mailbox + ".txt")
+         file = open ("usuario.txt")
          
          cmd = 'zmlocalconfig -s zimbra_ldap_password | cut -d " " -f3'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
