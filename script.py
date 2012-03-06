@@ -26,7 +26,7 @@ def intro():
     return option
 
 def user_import(mailbox):
-    if ( os.path.exists('backup_'+mailbox+'_.tgz') == "False" ):
+    if ( str(os.path.exists('backup_'+mailbox+'_.tgz')) == "False" ):
         print "No se encuentra el backup de " + mailbox + " para su importación"
         sys.exit()
     cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
