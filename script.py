@@ -50,10 +50,31 @@ def user_import(mailbox):
     p.wait()
     out = p.communicate()[0]
     out = out[:-1]
-    print "Importando la cuenta " + mailbox + " con un tamaño de: "+ ut
+    print "Importando la cuenta " + mailbox + " con un tamaño de: "+ out
     cmd = 'zmmailbox -z -m ' + mailbox + ' postRestURL "//?fmt=tgz&resolve=reset"  backup_' + mailbox + '_.tgz'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
+    # Exportación de los datos del LDAP de la cuenta.
+    
+    cmd = 'su - zimbra -c "zmlocalconfig -s zimbra_ldap_password | cut -d " " -f3"'
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    out = p.communicate()[0]
+    zimbraLdapPassword = out[:-1]
+    
+    cmd = 'su - zimbra -c "zmlocalconfig -s ldap_master_url | cut -d " " -f3"'
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    out = p.communicate()[0]
+    ldapMasterUrl = out[:-1]    
+   
+    cmd = 'opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep displayName: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p.wait()
+    out = p.communicate()[0]
+    givenName = out[:-1]
+    print "Atributo GivenName: " + givenName
+    
     print "Cuenta Importada con éxito"
     sys.exit()
 
