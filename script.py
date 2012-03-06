@@ -190,7 +190,7 @@ def user_export(mailbox):
          p.wait()
          out = p.communicate()[0]
          zimbraLdapPassword = out[:-1]
-         print "Password: " + ZimbraLdapPassword
+         print "Password: " + zimbraLdapPassword
          
          cmd = 'zmlocalconfig -s ldap_master_url | cut -d " " -f3'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
