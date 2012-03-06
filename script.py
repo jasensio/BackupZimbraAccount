@@ -211,7 +211,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         givenName = out
+         givenName = out[:-1]
          print "Atributo GivenName: " + givenName
          file.write(givenName+'\n')
          
