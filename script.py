@@ -26,7 +26,6 @@ def intro():
     return option
 
 
-
 def user_import(mailbox):
     if ( str(os.path.exists('backup_'+mailbox+'_.tgz')) == "False" ):
         print "No se encuentra el backup de " + mailbox + " para su importación"
@@ -186,13 +185,13 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          # Exportación de los datos del LDAP de la cuenta.
-         cmd = 'su - zimbra -c "zmlocalconfig -s zimbra_ldap_password | cut -d " " -f3"'
+         cmd = 'zmlocalconfig -s zimbra_ldap_password | cut -d " " -f3'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
          zimbraLdapPassword = out[:-1]
          
-         cmd = 'su - zimbra -c "zmlocalconfig -s ldap_master_url | cut -d " " -f3"'
+         cmd = 'zmlocalconfig -s ldap_master_url | cut -d " " -f3'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
