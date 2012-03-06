@@ -203,7 +203,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         displayName = out
+         displayName = out[:-1]
          print "Atributo displayName: " + displayName
          file.write(displayName)
          
@@ -213,13 +213,13 @@ def user_export(mailbox):
          out = p.communicate()[0]
          givenName = out
          print "Atributo GivenName: " + givenName
-         file.write(givenName)
+         file.write(givenName+"\n")
          
          cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep cn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         cnName = out
+         cnName = out[:-1]
          print "Atributo cnName: " + cnName
          file.write(cnName)
          
@@ -227,7 +227,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         initials = out
+         initials = out[:-1]
          print "Atributo initials: " + initials
          file.write(initials)
          
@@ -235,7 +235,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         dnName = out
+         dnName = out[:-1]
          print "Atributo dnName: " + dnName
          file.write(dnName)
          
@@ -243,7 +243,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         snName = out
+         snName = out[:-1]
          print "Atributo snName: " + snName
          file.write(snName)
            
