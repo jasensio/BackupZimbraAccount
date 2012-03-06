@@ -27,7 +27,7 @@ def intro():
 
 
 def user_import(mailbox):
-    print "Fichero:" + os.path.exists('backup_'+mailbox+'_.tgz')
+    print "Fichero:" + str(os.path.exists('backup_'+mailbox+'_.tgz'))
     if ( os.path.exists('backup_'+mailbox+'_.tgz') == "False" ):
         print "No se encuentra el backup de " + mailbox + " para su importación"
         sys.exit()
