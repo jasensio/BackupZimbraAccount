@@ -59,7 +59,7 @@ def user_import(mailbox):
 
 def user_import_massive():
     print "Buscando cuentas para importar en el directorio actual..."
-    print "Si continuas se crearán las cuentas que no existan y sobreecribiran las que existan!!"
+    print "Si continuas se crearán las cuentas que no existan y sobrescribiran las que existan!!"
     question = raw_input("PROCEDEMOS??  (SI) ")
     if question != "SI":
         print "Cancelado"
@@ -70,7 +70,6 @@ def user_import_massive():
     for mailbox in p.stdout.readlines():
         mailbox = mailbox[:-1]
         mailbox = mailbox.split("_")[1]
-        print "MAILBOX: " + mailbox
         cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
