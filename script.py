@@ -203,7 +203,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         displayName = out[:-1]
+         displayName = out
          print "Atributo displayName: " + displayName
          file.write(displayName)
          
@@ -211,7 +211,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         givenName = out[:-1]
+         givenName = out
          print "Atributo GivenName: " + givenName
          file.write(givenName)
          
@@ -219,7 +219,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         cnName = out[:-1]
+         cnName = out
          print "Atributo cnName: " + cnName
          file.write(cnName)
          
@@ -227,7 +227,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         initials = out[:-1]
+         initials = out
          print "Atributo initials: " + initials
          file.write(initials)
          
@@ -235,7 +235,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         dnName = out[:-1]
+         dnName = out
          print "Atributo dnName: " + dnName
          file.write(dnName)
          
@@ -243,7 +243,7 @@ def user_export(mailbox):
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
-         snName = out[:-1]
+         snName = out
          print "Atributo snName: " + snName
          file.write(snName)
            
