@@ -213,7 +213,7 @@ def user_export(mailbox):
          out = p.communicate()[0]
          givenName = out
          print "Atributo GivenName: " + givenName
-         file.write(givenName+"\n")
+         file.write(givenName+'\n')
          
          cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep cn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
