@@ -199,7 +199,7 @@ def user_export(mailbox):
          ldapMasterUrl = out[:-1]  
          print "Password: " + ldapMasterUrl  
         
-         cmd = 'opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep displayName: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
+         cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep displayName: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
          out = p.communicate()[0]
