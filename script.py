@@ -58,7 +58,7 @@ def user_import(mailbox):
     out = p.communicate()[0]
     out = out[:-1]
     print "Importando la cuenta " + mailbox + " con un tamaño de: "+ out
-    cmd = 'zmmailbox -z -m ' + mailbox + ' postRestURL "//?fmt=tgz&resolve=reset"  backup_' + mailbox + '_.tgz'
+    #cmd = 'zmmailbox -z -m ' + mailbox + ' postRestURL "//?fmt=tgz&resolve=reset"  backup_' + mailbox + '_.tgz'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
     print "Cuenta Importada con éxito"
