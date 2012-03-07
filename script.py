@@ -50,7 +50,7 @@ def user_import(mailbox):
         f = open(mailbox + '.txt')
         params = f.read()
         params = params.split()
-        print "Parametros: " + str(params)[0]
+        print "Parametros: " + str(params)[1]
         print "El buzón a importar existe, se sobreescribirán los datos..."
         question = raw_input("CONTINUAR??  (SI) ")
         if question != "SI":
