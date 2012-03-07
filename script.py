@@ -122,7 +122,9 @@ def user_export_massive():
         mail = tmp[0]
         print "Mail:" + mail
         active = tmp[1]
+        print "active: "+active
         creation_date = tmp[2]
+        print "creation " + creation_date
         last_activity_date = tmp[4]
         if "wiki" in mail  or "galsync" in mail  or "ham" in mail or "spam" in mail  or "virus" in mail:
             break
