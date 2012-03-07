@@ -9,6 +9,7 @@ ebold="\033[00m"
 
 def intro():
     print"""
+    \033[1m""\n===> 
     Utilidad de Importación/Exportación de cuentas en Zimbra.
     Opciones:
     1.- Exportar una cuenta.
@@ -16,6 +17,7 @@ def intro():
     3.- Importación de una cuenta.
     4.- Importación masiva.
     5.- Salir
+    \033[0m
     """
     option = raw_input("Introduce Opción: ")
     try:
@@ -53,6 +55,7 @@ def user_import(mailbox):
         initials = str(params)[:-1]
         print "No existe el buzón, creándolo..."
         cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
+        print cmd
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
