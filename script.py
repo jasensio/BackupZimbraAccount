@@ -41,9 +41,9 @@ def user_import(mailbox):
     if out != mailbox:
         f = open(mailbox + '.txt')
         params = f.readline()
-        givenName = str(params)[:-1]
-        params = f.readline()
         displayName = str(params)[:-1]
+        params = f.readline()
+        givenName = str(params)[:-1]
         params = f.readline()
         snName = str(params)[:-1]
         params = f.readline()
