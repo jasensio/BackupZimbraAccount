@@ -120,6 +120,7 @@ def user_export_massive():
         if line == "\n": break
         tmp = line.split()
         mail = tmp[0]
+        print "Mail:" + mail
         active = tmp[1]
         creation_date = tmp[2]
         last_activity_date = tmp[4]
