@@ -55,7 +55,7 @@ def user_import(mailbox):
         question = raw_input("CONTINUAR??  (SI) ")
         if question != "SI":
             print "Cancelado"
-            sys.exit()
+            sys.exit() 
     cmd = 'ls -lh backup_' + mailbox + '_.tgz | cut -d " " -f 5'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
