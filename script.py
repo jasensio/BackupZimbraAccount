@@ -47,6 +47,8 @@ def user_import(mailbox):
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
+        f = open(mailbox + '.txt')
+        params = f.read()
         print "El buzón a importar existe, se sobreescribirán los datos..."
         question = raw_input("CONTINUAR??  (SI) ")
         if question != "SI":
