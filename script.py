@@ -127,7 +127,9 @@ def user_export_massive():
         print "creation " + creation_date
         last_activity_date = tmp[4]
         if "wiki" in mail  or "galsync" in mail  or "ham" in mail or "spam" in mail  or "virus" in mail:
+            print "antes de break"
             break
+            print "despues de break"
         if last_activity_date == "never":
             print "Dentro de never"
             cmd = 'date -d ' + creation_date + ' "+%s"'
