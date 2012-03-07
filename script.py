@@ -4,8 +4,8 @@ import sys
 import os.path
 import subprocess
 
-ibold="\033[1m""\n===> "
-ebold="\033[0m"
+ibold="\e[00;31m \n===> "
+ebold="\e[00m"
 
 def intro():
     print"""
