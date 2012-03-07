@@ -127,7 +127,6 @@ def user_export_massive():
             print "Cuenta de sistema no se exporta: " + mail
         else:
             if last_activity_date == "never":
-                print "Dentro de never"
                 cmd = 'date -d ' + creation_date + ' "+%s"'
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
                 p.wait()
