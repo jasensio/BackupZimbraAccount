@@ -110,10 +110,13 @@ def user_export_massive():
     p.wait()
     actual_date = p.communicate()[0]
     reference_date = int(actual_date) - inactivity_seconds
+    f=file('data.out','w')
     cmd = 'zmaccts | grep /'
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p = subprocess.Popen(cmd, shell=True, stdout=f)
     p.wait()
-    for line in p.stdout.readlines():
+    f.close()
+    for line in file('data.out'):
+        line = line[:-1]
         if line == "\n": break
         tmp = line.split()
         mail = tmp[0]
