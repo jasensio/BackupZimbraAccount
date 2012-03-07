@@ -50,6 +50,7 @@ def user_import(mailbox):
         initials = str(params)[:-1]
         print "No existe el buzón, creándolo..."
         cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + 'displayName ' + displayName + ' givenName ' + givenName + ' sn ' + snName + ' initials ' + initials
+        print "CMD: " + cmd
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
