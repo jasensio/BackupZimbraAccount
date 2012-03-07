@@ -31,10 +31,10 @@ def intro():
 
 def user_import(mailbox):
     if ( str(os.path.exists('backup_'+mailbox+'_.tgz')) == "False" ):
-        print "No se encuentra el backup de " + mailbox + " para su importación"
+        print ibold + "No se encuentra el backup de " + mailbox + " para su importación" + ebold
         sys.exit()
     if ( str(os.path.exists(mailbox+'.txt')) == "False" ):
-        print "No se encuentra el archivo con la información " + mailbox + " para su importación"
+        print ibold + "No se encuentra el archivo con la información " + mailbox + " para su importación" + ebold
         sys.exit()
     cmd = 'zmaccts | grep '+ mailbox + ' | cut -d " " -f1'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
@@ -57,7 +57,7 @@ def user_import(mailbox):
         p.wait()
     else:
         print "El buzón a importar existe, se sobreescribirán los datos..."
-        question = raw_input("CONTINUAR??  (SI) ")
+        question = raw_input(ibold + "CONTINUAR??  (SI) " + ebold)
         if question != "SI":
             print "Cancelado"
             sys.exit() 
@@ -77,7 +77,7 @@ def user_import(mailbox):
 def user_import_massive():
     print "Buscando cuentas para importar en el directorio actual..."
     print "Si continuas se crearán las cuentas que no existan y sobrescribiran las que existan!!"
-    question = raw_input("PROCEDEMOS??  (SI) ")
+    question = raw_input(ibold + "PROCEDEMOS??  (SI) " + ebold)
     if question != "SI":
         print "Cancelado"
         sys.exit()
@@ -122,7 +122,7 @@ def user_export_massive():
     try:
         inactivity_days = int(inactivity_days)
     except ValueError:
-        print "No has introducido una número de días válida"
+        print ibold + "No has introducido una número de días válida" + ebold
         sys.exit()
     print "Si continuas se procederá a la importación de cuentas inactivas de más de " + str(inactivity_days) + " días"
     question = raw_input(ibold + "PROCEDEMOS??  (SI) " + ebold)
@@ -250,7 +250,7 @@ def user_export_massive():
 
 def user_export(mailbox):
     print "Iniciando el proceso de exportación de la cuenta "+mailbox+"..."
-    question = raw_input("CONTINUAR??  (SI) ")
+    question = raw_input(ibold + "CONTINUAR??  (SI) " + ebold)
     if question != "SI":
         print "Cancelado"
         sys.exit()
@@ -260,7 +260,7 @@ def user_export(mailbox):
     out = p.communicate()[0]
     out = out[:-1]
     if out != mailbox:
-        print "No existe el buzón, saliendo..."
+        print ibold + "No existe el buzón, saliendo..." + ebold
         sys.exit()
     else:
          cmd = 'zmmailbox -z -m ' + mailbox + ' gms'
