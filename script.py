@@ -132,7 +132,7 @@ def user_export_massive():
     p.wait()
     actual_date = p.communicate()[0]
     reference_date = int(actual_date) - inactivity_seconds
-    f=file('data.out','w')
+    f=open('data.out','w')
     cmd = 'zmaccts | grep /'
     p = subprocess.Popen(cmd, shell=True, stdout=f)
     p.wait()
