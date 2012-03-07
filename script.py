@@ -129,6 +129,7 @@ def user_export_massive():
         if "wiki" in mail  or "galsync" in mail  or "ham" in mail or "spam" in mail  or "virus" in mail:
             break
         if last_activity_date == "never":
+            print "Dentro de never"
             cmd = 'date -d ' + creation_date + ' "+%s"'
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
@@ -147,6 +148,7 @@ def user_export_massive():
             else:
                 print "No exportamos la cuenta: " + mail
         else:
+            print "Dentro de no Never"
             cmd = 'date -d ' + last_activity_date + ' "+%s"'
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
