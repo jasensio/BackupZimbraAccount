@@ -58,6 +58,7 @@ def user_import(mailbox):
     print "Cuenta Importada con éxito"
     sys.exit()
 
+
 def user_import_massive():
     print "Buscando cuentas para importar en el directorio actual..."
     print "Si continuas se crearán las cuentas que no existan y sobrescribiran las que existan!!"
@@ -111,10 +112,13 @@ def user_export_massive():
     p.wait()
     actual_date = p.communicate()[0]
     reference_date = int(actual_date) - inactivity_seconds
+    f=file('data.out','w')
     cmd = 'zmaccts | grep /'
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    p = subprocess.Popen(cmd, shell=True, stdout=f)
     p.wait()
-    for line in p.stdout.readlines():
+    f.close()
+    for line in file('data.out'):
+        line = line[:-1]
         if line == "\n": break
         tmp = line.split()
         mail = tmp[0]
@@ -122,43 +126,44 @@ def user_export_massive():
         creation_date = tmp[2]
         last_activity_date = tmp[4]
         if "wiki" in mail  or "galsync" in mail  or "ham" in mail or "spam" in mail  or "virus" in mail:
-            break
-        if last_activity_date == "never":
-            cmd = 'date -d ' + creation_date + ' "+%s"'
-            p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-            p.wait()
-            creation_date_seconds = p.communicate()[0]
-            if reference_date > int(creation_date_seconds):
-                cmd = 'zmmailbox -z -m ' + mail + ' gms'
-                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-                p.wait()
-                out = p.communicate()[0]
-                out = out[:-1]
-                print "Exportando la cuenta: " + mail + "de tamaño: " + out
-                cmd = 'zmmailbox -z -m ' + mail + ' getRestURL "//?fmt=tgz" > backup_' + mail + '_.tgz'
-                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-                p.wait()
-                print "Cuenta exportada con éxito"
-            else:
-                print "No exportamos la cuenta: " + mail
+            print "Cuenta de sistema no se exporta: " + mail
         else:
-            cmd = 'date -d ' + last_activity_date + ' "+%s"'
-            p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-            p.wait()
-            last_activity_seconds = p.communicate()[0]
-            if reference_date > int(last_activity_seconds):
-                cmd = 'zmmailbox -z -m ' + mail + ' gms'
+            if last_activity_date == "never":
+                cmd = 'date -d ' + creation_date + ' "+%s"'
                 p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
                 p.wait()
-                out = p.communicate()[0]
-                out = out[:-1]
-                print "Exportando la cuenta: " + mail + "de tamaño: " + out
-                cmd = 'zmmailbox -z -m ' + mail + ' getRestURL "//?fmt=tgz" > backup_' + mail + '_.tgz'
-                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-                p.wait()
-                print "Cuenta exportada con éxito"
+                creation_date_seconds = p.communicate()[0]
+                if reference_date > int(creation_date_seconds):
+                    cmd = 'zmmailbox -z -m ' + mail + ' gms'
+                    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                    p.wait()
+                    out = p.communicate()[0]
+                    out = out[:-1]
+                    print "Exportando la cuenta: " + mail + "de tamaño: " + out
+                    cmd = 'zmmailbox -z -m ' + mail + ' getRestURL "//?fmt=tgz" > backup_' + mail + '_.tgz'
+                    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                    p.wait()
+                    print "Cuenta exportada con éxito"
+                else:
+                    print "No exportamos la cuenta: " + mail
             else:
-                print "No exportamos la cuenta: " + mail
+                cmd = 'date -d ' + last_activity_date + ' "+%s"'
+                p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                p.wait()
+                last_activity_seconds = p.communicate()[0]
+                if reference_date > int(last_activity_seconds):
+                    cmd = 'zmmailbox -z -m ' + mail + ' gms'
+                    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                    p.wait()
+                    out = p.communicate()[0]
+                    out = out[:-1]
+                    print "Exportando la cuenta: " + mail + "de tamaño: " + out
+                    cmd = 'zmmailbox -z -m ' + mail + ' getRestURL "//?fmt=tgz" > backup_' + mail + '_.tgz'
+                    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+                    p.wait()
+                    print "Cuenta exportada con éxito"
+                else:
+                    print "No exportamos la cuenta: " + mail
 
 def user_export(mailbox):
     print "Iniciando el proceso de exportación de la cuenta "+mailbox+"..."
