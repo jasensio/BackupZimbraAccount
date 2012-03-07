@@ -40,20 +40,19 @@ def user_import(mailbox):
     out = out[:-1]
     if out != mailbox:
         f = open(mailbox + '.txt')
-        params = f.read()
-        print "Parametros: " + params
+        params = f.readline()
+        givenName = str(params)[:-1]
+        params = f.readline()
+        displayName = str(params)[:-1]
+        params = f.readline()
+        snName = str(params)[:-1]
+        params = f.readline()
+        initials = str(params)[:-1]
         print "No existe el buzón, creándolo..."
-        cmd = 'zmprov ca ' + mailbox + ' 1qasw2'
+        cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + 'displayName ' + displayName + ' givenName ' + givenName + ' sn ' + snName + ' initials ' + initials
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
-        f = open(mailbox + '.txt')
-        params = f.readline()
-        print "Parametros: " + str(params)[:-1]
-        params = f.readline()
-        print "Parametros: " + str(params)[:-1]
-        params = f.readline()
-        print "Parametros: " + str(params)[:-1]
         print "El buzón a importar existe, se sobreescribirán los datos..."
         question = raw_input("CONTINUAR??  (SI) ")
         if question != "SI":
