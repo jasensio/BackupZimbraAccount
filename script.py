@@ -4,6 +4,9 @@ import sys
 import os.path
 import subprocess
 
+ibold="\033[1m""\n===> "
+ebold="\033[0m"
+
 def intro():
     print"""
     Utilidad de Importación/Exportación de cuentas en Zimbra.
@@ -64,7 +67,7 @@ def user_import(mailbox):
     out = p.communicate()[0]
     out = out[:-1]
     print "Importando la cuenta " + mailbox + " con un tamaño de: "+ out
-    #cmd = 'zmmailbox -z -m ' + mailbox + ' postRestURL "//?fmt=tgz&resolve=reset"  backup_' + mailbox + '_.tgz'
+    cmd = 'zmmailbox -z -m ' + mailbox + ' postRestURL "//?fmt=tgz&resolve=reset"  backup_' + mailbox + '_.tgz'
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     p.wait()
     print "Cuenta Importada con éxito"
@@ -122,7 +125,7 @@ def user_export_massive():
         print "No has introducido una número de días válida"
         sys.exit()
     print "Si continuas se procederá a la importación de cuentas inactivas de más de " + str(inactivity_days) + " días"
-    question = raw_input("PROCEDEMOS??  (SI) ")
+    question = raw_input(ibold + "PROCEDEMOS??  (SI) " + ebold)
     if question != "SI":
         print "Cancelado"
         sys.exit()
@@ -183,7 +186,6 @@ def user_export_massive():
                     p.wait()
                     out = p.communicate()[0]
                     displayName = out[:-1]
-                    print "Atributo displayName: " + displayName
                     f.write(displayName+'\n')
                     
                     cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" |  grep givenName: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
@@ -191,7 +193,6 @@ def user_export_massive():
                     p.wait()
                     out = p.communicate()[0]
                     givenName = out[:-1]
-                    print "Atributo GivenName: " + givenName
                     f.write(givenName+'\n')
          
                     cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep sn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
@@ -199,7 +200,6 @@ def user_export_massive():
                     p.wait()
                     out = p.communicate()[0]
                     snName = out[:-1]
-                    print "Atributo snName: " + snName
                     f.write(snName+'\n')
                     
                     #cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep cn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
@@ -215,7 +215,6 @@ def user_export_massive():
                     p.wait()
                     out = p.communicate()[0]
                     initials = out[:-1]
-                    print "Atributo initials: " + initials
                     f.write(initials+'\n')
          
                     #cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep dn:'
@@ -345,7 +344,7 @@ def user_export(mailbox):
 def read_mailbox():
     mailbox = raw_input("Introduce el nombre de la cuenta: ")
     if mailbox.find("@") == -1:
-        print "Nombre de cuenta nó válido. Cancelado"
+        print ibold + "Nombre de cuenta nó válido. Cancelado" + ebold
         sys.exit()
     return mailbox
 
