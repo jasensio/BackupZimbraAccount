@@ -55,7 +55,6 @@ def user_import(mailbox):
         initials = str(params)[:-1]
         print "No existe el buzón, creándolo..."
         cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
-        print cmd
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
@@ -207,28 +206,12 @@ def user_export_massive():
                     snName = out[:-1]
                     f.write(snName+'\n')
                     
-                    #cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep cn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
-                    #p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-                    #p.wait()
-                    #out = p.communicate()[0]
-                    #cnName = out[:-1]
-                    #print "Atributo cnName: " + cnName
-                    #f.write(cnName+'\n')
-                    
                     cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep initials: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
                     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
                     p.wait()
                     out = p.communicate()[0]
                     initials = out[:-1]
-                    f.write(initials+'\n')
-         
-                    #cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep dn:'
-                    #p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-                    #p.wait()
-                    #out = p.communicate()[0]
-                    #dnName = out[:-1]
-                    #print "Atributo dnName: " + dnName
-                    #f.write(dnName+'\n')   
+                    f.write(initials+'\n') 
                     
                     f.close()
                     print "Cuenta exportada con éxito"
@@ -316,14 +299,6 @@ def user_export(mailbox):
          print "Atributo snName: " + snName
          f.write(snName+'\n')
          
-         #cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep cn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
-         #p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-         #p.wait()
-         #out = p.communicate()[0]
-         #cnName = out[:-1]
-         #print "Atributo cnName: " + cnName
-         #f.write(cnName+'\n')
-         
          cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep initials: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
          p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
          p.wait()
@@ -331,16 +306,6 @@ def user_export(mailbox):
          initials = out[:-1]
          print "Atributo initials: " + initials
          f.write(initials+'\n')
-         
-         #cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep dn:'
-         #p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-         #p.wait()
-         #out = p.communicate()[0]
-         #dnName = out[:-1]
-         #print "Atributo dnName: " + dnName
-         #f.write(dnName+'\n')
-         
-     
            
          f.close()
          print "Cuenta exportada con éxito"
