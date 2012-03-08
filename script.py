@@ -108,7 +108,7 @@ def user_import_massive():
             snName = str(params)[:-1]
             params = f.readline()
             initials = str(params)[:-1]
-            print "No existe el buzón, creándolo..."
+            print "No existe el buzón " + mailbox + " creándolo..."
             cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
