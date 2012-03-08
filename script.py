@@ -280,7 +280,6 @@ def user_export(mailbox):
          p.wait()
          out = p.communicate()[0]
          displayName = out[:-1]
-         print "Atributo displayName: " + displayName
          f.write(displayName+'\n')
          
          cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" |  grep givenName: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
@@ -288,7 +287,6 @@ def user_export(mailbox):
          p.wait()
          out = p.communicate()[0]
          givenName = out[:-1]
-         print "Atributo GivenName: " + givenName
          f.write(givenName+'\n')
          
          cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep sn: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
@@ -296,7 +294,6 @@ def user_export(mailbox):
          p.wait()
          out = p.communicate()[0]
          snName = out[:-1]
-         print "Atributo snName: " + snName
          f.write(snName+'\n')
          
          cmd = '/opt/zimbra/bin/ldapsearch -H' + ldapMasterUrl + ' -w ' + zimbraLdapPassword  + ' -D uid=zimbra,cn=admins,cn=zimbra -x "(&(objectClass=zimbraAccount)(mail=' + mailbox + '))" | grep initials: | cut -d ":" -f2 | sed "s/^ *//g" | sed "s/ *$//g"'
@@ -304,7 +301,6 @@ def user_export(mailbox):
          p.wait()
          out = p.communicate()[0]
          initials = out[:-1]
-         print "Atributo initials: " + initials
          f.write(initials+'\n')
            
          f.close()
