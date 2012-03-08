@@ -8,6 +8,7 @@ ibold="\033[31m""\n===> "
 ebold="\033[00m"
 COS = "250mb"
 
+
 def intro():
     print"""
     \033[1m 
