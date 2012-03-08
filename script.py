@@ -6,6 +6,7 @@ import subprocess
 
 ibold="\033[31m""\n===> "
 ebold="\033[00m"
+COS = "250mb"
 
 def intro():
     print"""
@@ -54,7 +55,7 @@ def user_import(mailbox):
         params = f.readline()
         initials = str(params)[:-1]
         print "No existe el buzón, creándolo..."
-        cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
+        cmd = 'zmprov ca ' + mailbox + ' 1qasw2' +  ' sac ' + COS + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
@@ -105,7 +106,7 @@ def user_import_massive():
             params = f.readline()
             initials = str(params)[:-1]
             print "No existe el buzón, creándolo..."
-            cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
+            cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' sac ' + COS + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
         cmd = 'ls -lh backup_'+ mailbox +'_.tgz | cut -d " " -f 5'
