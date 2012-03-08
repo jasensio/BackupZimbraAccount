@@ -59,6 +59,7 @@ def user_import(mailbox):
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
         cmd = 'zmprov sac ' + mailbox + ' ' + COS
+        print "COS: " + cmd
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
