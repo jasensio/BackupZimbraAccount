@@ -58,7 +58,7 @@ def user_import(mailbox):
         cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
-        cmd = 'zmprov sac ' + mailbox + COS
+        cmd = 'zmprov sac ' + mailbox + ' ' + COS
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
         p.wait()
     else:
@@ -112,7 +112,7 @@ def user_import_massive():
             cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
-            cmd = 'zmprov sac ' + mailbox + COS
+            cmd = 'zmprov sac ' + mailbox + ' ' + COS
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             p.wait()
         cmd = 'ls -lh backup_'+ mailbox +'_.tgz | cut -d " " -f 5'
