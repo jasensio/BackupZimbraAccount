@@ -9,7 +9,7 @@ ebold="\033[00m"
 
 def intro():
     print"""
-    \033[1m""\n===> 
+    \033[1m 
     Utilidad de Importación/Exportación de cuentas en Zimbra.
     Opciones:
     1.- Exportar una cuenta.
@@ -160,6 +160,7 @@ def user_export_massive():
                 p.wait()
                 creation_date_seconds = p.communicate()[0]
                 if reference_date > int(creation_date_seconds):
+                    
                     cmd = 'zmmailbox -z -m ' + mailbox + ' gms'
                     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
                     p.wait()
