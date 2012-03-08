@@ -106,8 +106,8 @@ def user_import_massive():
             params = f.readline()
             initials = str(params)[:-1]
             print "No existe el buzón, creándolo..."
-            print "CMD: " + cmd
             cmd = 'zmprov ca ' + mailbox + ' 1qasw2' + ' displayName "' + displayName + '" givenName "' + givenName + '" sn "' + snName + '" initials "' + initials + '"'
+            print "CMD: " + cmd 
             p.wait()
         cmd = 'ls -lh backup_'+ mailbox +'_.tgz | cut -d " " -f 5'
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
